@@ -5,13 +5,14 @@ import subprocess
 import sys
 from dataclasses import dataclass
 from pathlib import Path
+from typing import List, Optional, Tuple
 
 
 ROOT = Path(__file__).resolve().parent.parent
 
 # Sentinel strings that appear in evidence files when they are still in template
 # (placeholder) state.  Defining them as constants makes maintenance easier.
-_TEMPLATE_SENTINELS: tuple[str, ...] = (
+_TEMPLATE_SENTINELS: Tuple[str, ...] = (
     "replace all placeholders",
     "<paste",
     "<short note",
@@ -22,11 +23,11 @@ _TEMPLATE_SENTINELS: tuple[str, ...] = (
 class StepConfig:
     id: str
     folder: str
-    test_modules: list[str]
-    evidence_tokens: list[str]
+    test_modules: List[str]
+    evidence_tokens: List[str]
 
 
-STEPS: list[StepConfig] = [
+STEPS: List[StepConfig] = [
     StepConfig(
         id="step-01",
         folder="step-01-code-completion",
@@ -72,20 +73,20 @@ STEPS: list[StepConfig] = [
 ]
 
 
-def run_unittest(module: str) -> tuple[bool, str]:
+def run_unittest(module: str) -> Tuple[bool, str]:
     command = [sys.executable, "-m", "unittest", module]
     result = subprocess.run(command, cwd=ROOT, text=True, capture_output=True)
     output = (result.stdout + "\n" + result.stderr).strip()
     return result.returncode == 0, output
 
 
-def check_evidence(config: StepConfig) -> tuple[bool, list[str]]:
+def check_evidence(config: StepConfig) -> Tuple[bool, List[str]]:
     evidence_file = ROOT / config.folder / "copilot-evidence.md"
     if not evidence_file.exists():
         return False, ["Missing copilot-evidence.md"]
 
     content = evidence_file.read_text(encoding="utf-8").lower()
-    failures: list[str] = []
+    failures: List[str] = []
 
     if any(sentinel in content for sentinel in _TEMPLATE_SENTINELS):
         failures.append("Evidence file still contains placeholders")
@@ -97,8 +98,8 @@ def check_evidence(config: StepConfig) -> tuple[bool, list[str]]:
     return len(failures) == 0, failures
 
 
-def check_step04_student_tests() -> tuple[bool, list[str]]:
-    failures: list[str] = []
+def check_step04_student_tests() -> Tuple[bool, List[str]]:
+    failures: List[str] = []
     test_file = ROOT / "step-04-test-generation" / "student_tests.py"
     if not test_file.exists():
         return False, ["Missing student_tests.py"]
@@ -127,8 +128,8 @@ def check_step04_student_tests() -> tuple[bool, list[str]]:
     return len(failures) == 0, failures
 
 
-def evaluate_step(config: StepConfig) -> tuple[bool, list[str]]:
-    messages: list[str] = []
+def evaluate_step(config: StepConfig) -> Tuple[bool, List[str]]:
+    messages: List[str] = []
     step_ok = True
 
     for module in config.test_modules:
@@ -170,7 +171,7 @@ def is_step_started(config: StepConfig) -> bool:
     return not any(sentinel in content for sentinel in _TEMPLATE_SENTINELS)
 
 
-def detect_changed_steps() -> list[str] | None:
+def detect_changed_steps() -> Optional[List[str]]:
     """Detect which steps have changed files using git diff.
 
     Returns a list of step IDs that have both changed files (detected via
