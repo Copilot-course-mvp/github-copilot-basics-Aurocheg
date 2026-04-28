@@ -1,15 +1,13 @@
 # Copilot Evidence — Step 03
 
-Replace all placeholders.
-
 ## Refactor prompt
 
-`<paste your prompt>`
+Refactor this file to remove duplicated discount logic. Extract a helper named apply_discount and keep all public function signatures unchanged.
 
 ## Why behavior is preserved
 
-`<short note>`
+The subtotal calculation remains inside each public function, and the extracted helper contains the same discount calculation, zero-or-negative discount handling, negative total clamp, and rounding logic as before.
 
 ## Before vs after summary
 
-`<short note>`
+Before, checkout_total and invoice_total duplicated the same discount calculation. After, both functions calculate their subtotal and call apply_discount to share the discount behavior.
