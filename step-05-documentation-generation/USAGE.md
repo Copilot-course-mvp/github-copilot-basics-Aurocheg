@@ -1,11 +1,16 @@
 # Usage Guide
 
-<!-- Replace this file with generated + refined documentation -->
-
 ## Quickstart
 
-TODO
+Use `chunk_list` to split a list into smaller fixed-size groups:
 
-## Edge Cases
+```python
+from exercise import chunk_list, moving_average
 
-TODO
+chunks = chunk_list([1, 2, 3, 4, 5], 2)
+print(chunks)
+# [[1, 2], [3, 4], [5]]
+
+averages = moving_average([10.0, 20.0, 30.0], 2)
+print(averages)
+# [15.0, 25.0]
