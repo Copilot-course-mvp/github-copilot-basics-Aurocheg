@@ -1,19 +1,17 @@
 # Copilot Evidence — Step 02
 
-Replace all placeholders.
-
 ## /explain output summary
 
-`<paste your /explain prompt and summary>`
+/explain this function and list failure cases
 
 ## /fix prompt used
 
-`<paste prompt>`
+/fix this function but keep the same signature
 
 ## /generate prompt used
 
-`<paste prompt>`
+/generate a helper that returns the player with max score
 
 ## What you changed manually afterward
 
-`<short note>`
+test
