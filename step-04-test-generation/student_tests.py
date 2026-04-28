@@ -14,11 +14,39 @@ def _load_exercise_module():
 
 exercise = _load_exercise_module()
 
-
 class TestSanitizeTags(unittest.TestCase):
-    def test_add_cases_generated_with_copilot(self):
-        self.assertTrue(callable(exercise.sanitize_tags))
+    def test_empty_input(self):
+        self.assertEqual(exercise.sanitize_tags([]), [])
 
+    def test_duplicate_tags_with_mixed_case(self):
+        self.assertEqual(
+            exercise.sanitize_tags(["Python", "python", "PYTHON"]),
+            ["python"],
+        )
+
+    def test_tags_containing_punctuation(self):
+        self.assertEqual(
+            exercise.sanitize_tags(["hello!", "#go", "full-stack", "data_science"]),
+            ["hello", "go", "full-stack", "datascience"],
+        )
+
+    def test_trims_whitespace_and_lowercases(self):
+        self.assertEqual(
+            exercise.sanitize_tags(["  Go  ", " Rust "]),
+            ["go", "rust"],
+        )
+
+    def test_removes_empty_tags_after_cleanup(self):
+        self.assertEqual(
+            exercise.sanitize_tags(["   ", "!!!", "@@@", "Go"]),
+            ["go"],
+        )
+
+    def test_preserves_first_seen_order(self):
+        self.assertEqual(
+            exercise.sanitize_tags(["Go", "Python", "go", "Rust", "python"]),
+            ["go", "python", "rust"],
+        )
 
 if __name__ == "__main__":
     unittest.main()
