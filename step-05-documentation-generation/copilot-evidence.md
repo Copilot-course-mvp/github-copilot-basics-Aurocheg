@@ -1,15 +1,13 @@
 # Copilot Evidence — Step 05
 
-Replace all placeholders.
-
 ## Documentation prompt
 
-`<paste prompt>`
+Generate concise Python docstrings for these functions with purpose, args, returns, and one example. Also write a USAGE.md guide with one quickstart example and one edge-case example.
 
 ## What you edited after Copilot output
 
-`<short note>`
+I refined the wording to match the exact ValueError messages and added examples for both normal usage and edge cases.
 
 ## Accuracy check
 
-`<how you verified docs match behavior>`
+I compared each docstring and USAGE.md example against the implementation: size/window <= 0 raises ValueError, chunk_list returns fixed-size chunks, and moving_average returns [] when the window is larger than the input.
