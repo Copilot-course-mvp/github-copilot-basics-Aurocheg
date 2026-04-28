@@ -1,15 +1,13 @@
 # Copilot Evidence — Step 06
 
-Replace all placeholders.
-
 ## Translation prompt
 
-`<paste prompt>`
+Translate this JavaScript function to idiomatic Python preserving behavior, including ignoring invalid emails, lowercasing domains, and returning sorted keys.
 
 ## Differences from literal translation
 
-`<short note>`
+Used Python dict with .get() instead of JS object mutation, and dict(sorted(...)) to replicate Object.fromEntries with sorted entries.
 
 ## Final validation note
 
-`<how you confirmed parity>`
+Verified that domains are lowercased, invalid emails are ignored, and output keys are sorted alphabetically to match the JavaScript behavior.
